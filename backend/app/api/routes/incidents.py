@@ -5,6 +5,7 @@ The community-report action is the explicit, optional bridge from a private
 Incident into the public CommunityReport table (sections 23-25) -- nothing
 is ever published automatically.
 """
+import logging
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -18,25 +19,21 @@ from app.schemas.incident import IncidentOut
 from app.utils.extraction import normalize_domain
 from app.utils.sanitize import sanitize_ai_summary
 
+logger = logging.getLogger("spidersense.api.incidents")
+
 router = APIRouter(prefix="/incidents", tags=["incidents"])
 
 
 @router.get("/{incident_id}", response_model=IncidentOut)
 def get_incident(incident_id: UUID, db: Session = Depends(get_db)):
-    print("DEBUG incident_id:", incident_id)
-    
     incident = db.query(Incident).filter(Incident.id == incident_id).one_or_none()
-    
-    print("DEBUG incident found:", incident is not None)
-
     if incident is None:
         raise HTTPException(status_code=404, detail="Incident not found.")
-
     return _to_incident_out(incident)
 
 
 @router.post("/{incident_id}/community-report", response_model=CommunityReportOut)
-def create_community_report(incident_id: UUID, payload: CommunityReportRequest, db: Session = Depends(get_db)):
+async def create_community_report(incident_id: UUID, payload: CommunityReportRequest, db: Session = Depends(get_db)):
     if not payload.consent:
         raise HTTPException(status_code=400, detail="Consent is required to share with the community.")
 
@@ -82,6 +79,17 @@ def create_community_report(incident_id: UUID, payload: CommunityReportRequest, 
     incident.community_visible = True
     db.commit()
     db.refresh(community_report)
+
+    # Phase 4: assign this report to a campaign (embedding + clustering).
+    # Failure here must never block community sharing itself -- clustering
+    # is an enrichment, not a dependency of the core Phase 3 feature.
+    try:
+        from app.services.intelligence.campaign_service import assign_to_campaign
+
+        await assign_to_campaign(db, community_report)
+    except Exception:
+        logger.exception("Campaign assignment failed for community report %s; report was still published.", community_report.id)
+
     return community_report
 
 

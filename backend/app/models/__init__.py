@@ -13,6 +13,7 @@ from app.models.intelligence import (  # noqa: F401
     IncidentReport,
     CommunityReport,
 )
+from app.models.campaign import Campaign, CampaignReport, CampaignEvent  # noqa: F401
 
 __all__ = [
     "User",
@@ -26,4 +27,7 @@ __all__ = [
     "ScamFingerprint",
     "IncidentReport",
     "CommunityReport",
+    "Campaign",
+    "CampaignReport",
+    "CampaignEvent",
 ]

@@ -1,5 +1,7 @@
 import type {
   AnalysisResult,
+  CampaignDetailOut,
+  CampaignOut,
   CommunityReportOut,
   CommunityStats,
   IncidentOut,
@@ -65,6 +67,10 @@ export const api = {
 
   getCommunityStats: () => fetch(`${BASE}/community/stats`).then((r) => handle<CommunityStats>(r)),
 
-  getRelatedIncidents: (incidentId: string) =>
+    getRelatedIncidents: (incidentId: string) =>
     fetch(`${BASE}/community/related/${incidentId}`).then((r) => handle<RelatedIncidentsResult>(r)),
+
+  getCampaigns: () => fetch(`${BASE}/campaigns`).then((r) => handle<CampaignOut[]>(r)),
+
+  getCampaign: (id: string) => fetch(`${BASE}/campaigns/${id}`).then((r) => handle<CampaignDetailOut>(r)),
 };

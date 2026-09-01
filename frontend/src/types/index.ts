@@ -133,3 +133,28 @@ export interface RelatedIncidentsResult {
   related_report_ids: string[];
   confidence_note: string;
 }
+
+export interface CampaignOut {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  label: string;
+  scam_category?: string | null;
+  target_organization?: string | null;
+  platforms_seen: string[];
+  languages_seen: string[];
+  delivery_methods_seen: string[];
+  report_count: number;
+}
+
+export interface CampaignEventOut {
+  id: string;
+  event_type: string;
+  previous_values: string[];
+  new_value: string;
+  created_at: string;
+}
+
+export interface CampaignDetailOut extends CampaignOut {
+  events: CampaignEventOut[];
+}

@@ -31,7 +31,15 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: Optional[str] = None
     OPENAI_MODEL: str = "gpt-4o-mini"
     GEMINI_API_KEY: Optional[str] = None
-    GEMINI_MODEL: str = "gemini-2.5-flash"
+    GEMINI_MODEL: str = "gemini-3.6-flash"
+     # --- Embeddings (Phase 4: campaign clustering) ---
+    EMBEDDING_PROVIDER: str = "gemini"  # "gemini" | "mock"
+    EMBEDDING_MODEL: str = "gemini-embedding-001"
+    EMBEDDING_DIMENSIONS: int = 768
+    # Cosine-similarity threshold above which a new community report joins
+    # an existing campaign instead of starting a new one. Tune this if
+    # campaigns feel too eager to merge (raise it) or too fragmented (lower it).
+    CAMPAIGN_SIMILARITY_THRESHOLD: float = 0.82
 
     # --- OCR ---
        
