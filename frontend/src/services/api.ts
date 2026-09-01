@@ -4,11 +4,19 @@ import type {
   CampaignOut,
   CommunityReportOut,
   CommunityStats,
+  EvolutionPatternsResult,
   IncidentOut,
   RelatedIncidentsResult,
+  SuggestedNextMutation,
 } from "../types";
 
-const BASE = "/api";
+// In local dev, Vite's proxy (vite.config.ts) forwards "/api" to the
+// backend, so the default relative path works with no configuration.
+// Once frontend and backend are deployed to separate domains (e.g. Vercel
+// + Render), set VITE_API_BASE_URL to the backend's full URL so requests
+// go directly there instead of relying on a same-origin proxy that won't
+// exist in production.
+const BASE = `${import.meta.env.VITE_API_BASE_URL ?? ""}/api`;
 
 async function handle<T>(res: Response): Promise<T> {
   if (!res.ok) {

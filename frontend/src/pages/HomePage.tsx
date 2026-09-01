@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageShell from "../components/layout/PageShell";
 import AnalyzeInputPanel from "../components/analysis/AnalyzeInputPanel";
+import ScanningOverlay from "../components/analysis/ScanningOverlay";
 import SpiderEmblem from "../components/common/SpiderEmblem";
 import { api } from "../services/api";
 
@@ -18,7 +19,6 @@ export default function HomePage() {
       navigate(`/incidents/${result.incident_id}/result`, { state: { result } });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Analysis failed. Please try again.");
-    } finally {
       setBusy(false);
     }
   }
@@ -38,13 +38,19 @@ export default function HomePage() {
       </section>
 
       <div className="mx-auto max-w-2xl">
-        <AnalyzeInputPanel
-          busy={busy}
-          onSubmitText={(text) => handle(api.analyzeText(text))}
-          onSubmitUrl={(url) => handle(api.analyzeUrl(url))}
-          onSubmitImage={(file) => handle(api.analyzeImage(file))}
-          onSubmitAudio={(file) => handle(api.analyzeAudio(file))}
-        />
+        {busy ? (
+          <div className="panel web-field">
+            <ScanningOverlay />
+          </div>
+        ) : (
+          <AnalyzeInputPanel
+            busy={busy}
+            onSubmitText={(text) => handle(api.analyzeText(text))}
+            onSubmitUrl={(url) => handle(api.analyzeUrl(url))}
+            onSubmitImage={(file) => handle(api.analyzeImage(file))}
+            onSubmitAudio={(file) => handle(api.analyzeAudio(file))}
+          />
+        )}
         {error && <p className="mt-4 text-center text-sm text-spider-red">{error}</p>}
       </div>
     </PageShell>
