@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "patterns": [
+    {
+      "category": "KYC_FRAUD",
+      "display_name": "KYC Fraud",
+      "keywords": [
+        "kyc",
+        "account blocked",
+        "account suspended",
+        "verify immediately",
+        "update account"
+      ],
+      "common_tactics": [
+        "AUTHORITY_IMPERSONATION",
+        "URGENCY",
+        "FEAR"
+      ],
+      "stage_transitions": {
+        "account_warning": "HOOK",
+        "urgent_verification": "PRESSURE",
+        "credential_request": "INFORMATION_CAPTURE",
+        "otp_request": "INFORMATION_CAPTURE",
+        "money_request": "MONETIZATION"
+      },
+      "forecast_transitions": {
+        "CLICK_URL": "PROVIDE_CREDENTIALS",
+        "PROVIDE_CREDENTIALS": "REQUEST_OTP",
+        "REQUEST_OTP": "UNAUTHORIZED_TRANSACTION"
+      }
+    },
+    {
+      "category": "JOB_SCAM",
+      "display_name": "Job Scam",
+      "keywords": [
+        "job offer",
+        "selected for interview",
+        "registration fee",
+        "processing fee",
+        "work from home",
+        "guaranteed salary"
+      ],
+      "common_tactics": [
+        "REWARD",
+        "URGENCY",
+        "AUTHORITY_IMPERSONATION"
+      ],
+      "stage_transitions": {
+        "job_offer": "HOOK",
+        "fake_interview": "TRUST_BUILDING",
+        "registration_fee": "MONETIZATION",
+        "document_request": "INFORMATION_CAPTURE"
+      },
+      "forecast_transitions": {
+        "CONTACT_SCAMMER": "REGISTRATION_FEE",
+        "REGISTRATION_FEE": "ADDITIONAL_PAYMENT",
+        "ADDITIONAL_PAYMENT": "IDENTITY_DOCUMENT_REQUEST"
+      }
+    },
+    {
+      "category": "DELIVERY_SCAM",
+      "display_name": "Delivery Scam",
+      "keywords": [
+        "package delayed",
+        "delivery failed",
+        "reschedule delivery",
+        "small delivery fee",
+        "customs fee"
+      ],
+      "common_tactics": [
+        "URGENCY",
+        "CURIOSITY",
+        "FINANCIAL_PRESSURE"
+      ],
+      "stage_transitions": {
+        "delivery_warning": "HOOK",
+        "small_payment": "MONETIZATION",
+        "card_request": "INFORMATION_CAPTURE"
+      },
+      "forecast_transitions": {
+        "CLICK_URL": "SMALL_PAYMENT",
+        "SMALL_PAYMENT": "CARD_DETAIL_REQUEST",
+        "CARD_DETAIL_REQUEST": "REQUEST_OTP"
+      }
+    },
+    {
+      "category": "TECH_SUPPORT_SCAM",
+      "display_name": "Tech Support Scam",
+      "keywords": [
+        "virus detected",
+        "computer infected",
+        "technical support",
+        "remote access",
+        "install anydesk",
+        "install teamviewer"
+      ],
+      "common_tactics": [
+        "FEAR",
+        "AUTHORITY_IMPERSONATION",
+        "URGENCY"
+      ],
+      "stage_transitions": {
+        "fake_warning": "HOOK",
+        "support_call": "TRUST_BUILDING",
+        "software_installation": "ESCALATION"
+      },
+      "forecast_transitions": {
+        "CALL_NUMBER": "INSTALL_REMOTE_ACCESS_APP",
+        "INSTALL_REMOTE_ACCESS_APP": "DEVICE_CONTROL",
+        "DEVICE_CONTROL": "FINANCIAL_ACCOUNT_ACCESS"
+      }
+    },
+    {
+      "category": "INVESTMENT_SCAM",
+      "display_name": "Investment Scam",
+      "keywords": [
+        "guaranteed returns",
+        "double your money",
+        "limited investment opportunity",
+        "risk free profit",
+        "trading signal"
+      ],
+      "common_tactics": [
+        "REWARD",
+        "SCARCITY",
+        "TRUST_EXPLOITATION"
+      ],
+      "stage_transitions": {
+        "profit_promise": "HOOK",
+        "fake_testimonial": "TRUST_BUILDING",
+        "initial_deposit": "MONETIZATION",
+        "additional_deposit": "ESCALATION"
+      },
+      "forecast_transitions": {
+        "CONTACT_SCAMMER": "INITIAL_DEPOSIT",
+        "INITIAL_DEPOSIT": "FAKE_PROFIT_DISPLAY",
+        "FAKE_PROFIT_DISPLAY": "ADDITIONAL_DEPOSIT"
+      }
+    }
+  ]
+}
