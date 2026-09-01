@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply bg-void text-ink-primary antialiased;
+  }
+  ::selection {
+    @apply bg-spider-red/30 text-ink-primary;
+  }
+  :focus-visible {
+    outline: 2px solid theme("colors.web.blue");
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* A restrained, barely-visible web of thin lines used behind hero/empty
+     states -- never the dominant visual element (design directive section 7). */
+  .web-field {
+    position: relative;
+  }
+  .web-field::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    background-image:
+      repeating-linear-gradient(115deg, theme("colors.web.blue") 0px, transparent 1px, transparent 90px),
+      repeating-linear-gradient(65deg, theme("colors.web.blue") 0px, transparent 1px, transparent 90px);
+  }
+
+  .panel {
+    @apply rounded-lg border border-navy-border bg-navy-surface/80;
+  }
+
+  .glass {
+    @apply backdrop-blur-md bg-navy-surface/60 border border-navy-border;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
