@@ -1,0 +1,44 @@
+{
+  "description": "Example sanitized CommunityReport records, shaped for a seed script. Illustrates what publication looks like after redaction -- no personal phone numbers/emails, only scammer-side technical indicators.",
+  "examples": [
+    {
+      "platform": "SMS",
+      "language": "en",
+      "scam_category": "kyc_fraud",
+      "claimed_organization": "HDFC Bank",
+      "risk_level": "CRITICAL",
+      "tactics": ["urgency", "authority_impersonation", "credential_harvesting"],
+      "requested_action": "click_url",
+      "suspicious_domain": "hdfc-kyc-secure.example",
+      "suspicious_phone": null,
+      "ai_summary": "Message impersonates HDFC Bank, claims KYC has expired, and pressures the recipient to click a look-alike verification link.",
+      "report_count": 143
+    },
+    {
+      "platform": "WhatsApp",
+      "language": "en",
+      "scam_category": "courier_delivery_scam",
+      "claimed_organization": "India Post",
+      "risk_level": "HIGH",
+      "tactics": ["urgency", "financial_pressure"],
+      "requested_action": "click_url",
+      "suspicious_domain": "courier-track-pay.example",
+      "suspicious_phone": null,
+      "ai_summary": "Message claims a package is held for a small customs fee and directs the recipient to an unofficial payment link.",
+      "report_count": 87
+    },
+    {
+      "platform": "LinkedIn",
+      "language": "en",
+      "scam_category": "job_scam",
+      "claimed_organization": null,
+      "risk_level": "MEDIUM",
+      "tactics": ["reward_greed", "trust_exploitation"],
+      "requested_action": "download_attachment",
+      "suspicious_domain": null,
+      "suspicious_phone": null,
+      "ai_summary": "Unsolicited high-pay work-from-home offer asking the recipient to install a task app and pay a refundable registration fee.",
+      "report_count": 51
+    }
+  ]
+}
