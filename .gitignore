@@ -1,0 +1,26 @@
+# --- Python / backend ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+backend/.env
+
+# --- Node / frontend ---
+node_modules/
+dist/
+frontend/.env
+.vite/
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+
+# --- Local data ---
+*.db
+*.sqlite3
+
+# --- Alembic (keep versions, ignore local scratch) ---
+backend/alembic/*.pyc

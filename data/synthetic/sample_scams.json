@@ -1,0 +1,72 @@
+{
+  "description": "Synthetic scam messages for local testing and demos. Not from real victims. Includes a small simulated campaign-evolution sequence (see 'campaign_demo' entries) that mirrors the section-33 example: SMS -> WhatsApp -> Tamil -> Voice, for demonstrating Phase 3's related-incident matching (indicator/domain reuse). Phases 4+ campaign clustering is not implemented yet.",
+  "samples": [
+    {
+      "id": "sample-001",
+      "input_type": "text",
+      "platform": "SMS",
+      "language": "en",
+      "text": "Dear Customer, your Bank account will be BLOCKED today due to KYC expiry. Update immediately: http://sbi-kyc-verify.example/update or your account will be suspended.",
+      "expected_category": "kyc_fraud"
+    },
+    {
+      "id": "sample-002",
+      "input_type": "text",
+      "platform": "WhatsApp",
+      "language": "en",
+      "text": "Congratulations! You have WON Rs. 25,00,000 in the Amazon Anniversary Lottery. Share your bank details and pay a small processing fee of Rs. 500 to claim your prize now.",
+      "expected_category": "lottery_prize_scam"
+    },
+    {
+      "id": "sample-003",
+      "input_type": "text",
+      "platform": "Email",
+      "language": "en",
+      "text": "Your package could not be delivered due to unpaid customs duty of $2.99. Pay now at http://courier-track-pay.example to avoid return to sender within 24 hours.",
+      "expected_category": "courier_delivery_scam"
+    },
+    {
+      "id": "sample-004",
+      "input_type": "text",
+      "platform": "LinkedIn",
+      "language": "en",
+      "text": "We reviewed your profile and would like to offer you a Work From Home job paying $500/day. No experience needed. To proceed, install our task app and pay a $50 refundable registration fee.",
+      "expected_category": "job_scam"
+    },
+    {
+      "id": "sample-005",
+      "input_type": "text",
+      "platform": "SMS",
+      "language": "en",
+      "text": "IRS Notice: You owe $1,289 in unpaid taxes. Failure to respond within 24 hours will result in legal action. Call +1-800-555-0199 immediately to resolve.",
+      "expected_category": "government_impersonation"
+    },
+    {
+      "id": "campaign-demo-01",
+      "input_type": "text",
+      "platform": "SMS",
+      "language": "en",
+      "text": "Your HDFC Bank account KYC has expired. Verify now to avoid suspension: http://hdfc-kyc-secure.example/verify",
+      "expected_category": "kyc_fraud",
+      "note": "Day 1 of simulated campaign evolution"
+    },
+    {
+      "id": "campaign-demo-02",
+      "input_type": "text",
+      "platform": "WhatsApp",
+      "language": "en",
+      "text": "HDFC KYC Alert: Your account access will be restricted. Click to re-verify: http://hdfc-kyc-secure.example/reverify",
+      "expected_category": "kyc_fraud",
+      "note": "Day 4: same domain, new platform"
+    },
+    {
+      "id": "campaign-demo-03",
+      "input_type": "text",
+      "platform": "WhatsApp",
+      "language": "ta",
+      "text": "\u0b89\u0b99\u0bcd\u0b95\u0bb3\u0bcd HDFC \u0b95\u0ba3\u0b95\u0bcd\u0b95\u0bc1 KYC \u0bae\u0bc1\u0b9f\u0bbf\u0ba8\u0bcd\u0ba4\u0bc1\u0bb5\u0bbf\u0b9f\u0bcd\u0b9f\u0ba4\u0bc1. \u0b87\u0baa\u0bcd\u0baa\u0bcb\u0ba4\u0bc1 \u0b9a\u0bb0\u0bbf\u0baa\u0bbe\u0bb0\u0bcd\u0b95\u0bcd\u0b95\u0bb5\u0bc1\u0bae\u0bcd: http://hdfc-kyc-secure.example/ta-verify",
+      "expected_category": "kyc_fraud",
+      "note": "Day 8: same domain family, regional language"
+    }
+  ]
+}
