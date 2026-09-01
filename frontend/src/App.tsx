@@ -3,6 +3,8 @@ import HomePage from "./pages/HomePage";
 import AnalysisResultPage from "./pages/AnalysisResultPage";
 import CommunityPage from "./pages/CommunityPage";
 import IncidentDetailsPage from "./pages/IncidentDetailsPage";
+import CampaignsPage from "./pages/CampaignsPage";
+import CampaignDetailPage from "./pages/CampaignDetailPage";
 
 export default function App() {
   return (
@@ -12,6 +14,8 @@ export default function App() {
         <Route path="/incidents/:incidentId/result" element={<AnalysisResultPage />} />
         <Route path="/incidents/:incidentId" element={<IncidentDetailsPage />} />
         <Route path="/community" element={<CommunityPage />} />
+        <Route path="/campaigns" element={<CampaignsPage />} />
+        <Route path="/campaigns/:campaignId" element={<CampaignDetailPage />} />
       </Routes>
     </BrowserRouter>
   );

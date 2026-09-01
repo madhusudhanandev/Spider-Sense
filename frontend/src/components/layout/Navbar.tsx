@@ -4,6 +4,7 @@ import SpiderEmblem from "../common/SpiderEmblem";
 const links = [
   { to: "/", label: "Analyze" },
   { to: "/community", label: "Community" },
+  { to: "/campaigns", label: "Intelligence" },
 ];
 
 export default function Navbar() {

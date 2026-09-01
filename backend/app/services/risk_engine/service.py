@@ -13,8 +13,7 @@ from app.services.ai.base import AIAnalysisOutput
 
 # Requested actions that indicate the scam is asking for something
 # high-value/irreversible (credentials, money, OTP) weigh more heavily.
-_HIGH_VALUE_ACTIONS = {"provide_credentials", "provide_otp", "transfer_money", "scan_qr_code"}
-
+_HIGH_VALUE_ACTIONS = {"provide_credentials", "provide_otp", "transfer_money", "scan_qr_code", "click_url"}
 
 class RiskEngineResult:
     def __init__(self, score: int, level: RiskLevel, breakdown: RiskBreakdown):

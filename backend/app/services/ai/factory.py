@@ -21,16 +21,15 @@ def get_ai_service() -> AIAnalysisService:
         return _instance
 
     settings = get_settings()
-    if settings.AI_PROVIDER == "openai" and settings.OPENAI_API_KEY:
+    
+    if settings.AI_PROVIDER == "gemini" and settings.GEMINI_API_KEY:
         try:
-            from app.services.ai.openai_service import OpenAIAnalysisService
+            from app.services.ai.gemini_service import GeminiAnalysisService
 
-            _instance = OpenAIAnalysisService()
-            logger.info("AIAnalysisService: using OpenAI (%s)", settings.OPENAI_MODEL)
+            _instance = GeminiAnalysisService()
+            logger.info("AIAnalysisService: using Gemini (%s)", settings.GEMINI_MODEL)
             return _instance
         except Exception:
-            logger.warning("Failed to initialize OpenAIAnalysisService; falling back to mock", exc_info=True)
-
-    logger.info("AIAnalysisService: using mock (no provider key configured or AI_PROVIDER=mock)")
+            logger.warning("Failed to initialize GeminiAnalysisService; falling back to mock", exc_info=True)
     _instance = MockAIAnalysisService()
     return _instance

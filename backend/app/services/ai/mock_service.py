@@ -42,6 +42,8 @@ class MockAIAnalysisService(AIAnalysisService):
         requested_actions: list[str] = []
         if "otp" in lower:
             requested_actions.append("provide_otp")
+        if any(w in lower for w in ["pin", "password", "cvv", "card number"]):
+            requested_actions.append("provide_credentials")
         if _URL_RE.search(text):
             requested_actions.append("click_url")
         if "transfer" in lower or "pay" in lower:
