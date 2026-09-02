@@ -148,3 +148,6 @@ The frontend follows the Spider-Man-inspired cybersecurity direction from
 the design brief, using original spider/web-motif illustrations rather than
 licensed character artwork (see `frontend/src/components/common/SpiderEmblem.tsx`)
 so the product never depends on copyrighted assets to function.
+
+## Working
+https://youtu.be/9SDbwBE58ZQ
