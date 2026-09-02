@@ -17,7 +17,13 @@ const TABS: { key: InputTab; label: string }[] = [
   { key: "audio", label: "Audio" },
 ];
 
-export default function AnalyzeInputPanel({ onSubmitText, onSubmitUrl, onSubmitImage, onSubmitAudio, busy }: Props) {
+export default function AnalyzeInputPanel({
+  onSubmitText,
+  onSubmitUrl,
+  onSubmitImage,
+  onSubmitAudio,
+  busy,
+}: Props) {
   const [tab, setTab] = useState<InputTab>("text");
   const [text, setText] = useState("");
   const [url, setUrl] = useState("");
@@ -28,10 +34,22 @@ export default function AnalyzeInputPanel({ onSubmitText, onSubmitUrl, onSubmitI
 
   function handleSubmit() {
     if (busy) return;
-    if (tab === "text" && text.trim()) onSubmitText(text.trim());
-    if (tab === "url" && url.trim()) onSubmitUrl(url.trim());
-    if (tab === "image" && imageFile) onSubmitImage(imageFile);
-    if (tab === "audio" && audioFile) onSubmitAudio(audioFile);
+
+    if (tab === "text" && text.trim()) {
+      onSubmitText(text.trim());
+    }
+
+    if (tab === "url" && url.trim()) {
+      onSubmitUrl(url.trim());
+    }
+
+    if (tab === "image" && imageFile) {
+      onSubmitImage(imageFile);
+    }
+
+    if (tab === "audio" && audioFile) {
+      onSubmitAudio(audioFile);
+    }
   }
 
   const canSubmit =
@@ -41,8 +59,8 @@ export default function AnalyzeInputPanel({ onSubmitText, onSubmitUrl, onSubmitI
     (tab === "audio" && !!audioFile);
 
   return (
-    <div className="panel web-field p-6">
-      <div className="mb-5 flex gap-1 border-b border-navy-border">
+    <div className="panel web-field border border-navy-border/70 bg-navy-surface/25 p-6 backdrop-blur-[2px]">
+      <div className="mb-5 flex gap-1 border-b border-navy-border/60">
         {TABS.map((t) => (
           <button
             key={t.key}
@@ -64,7 +82,7 @@ export default function AnalyzeInputPanel({ onSubmitText, onSubmitUrl, onSubmitI
           onChange={(e) => setText(e.target.value)}
           placeholder="Paste the suspicious message here — SMS, WhatsApp, email, or DM."
           rows={6}
-          className="w-full resize-none rounded-md border border-navy-border bg-void/60 p-4 text-sm text-ink-primary placeholder:text-ink-faint focus:border-web-blue focus:outline-none"
+          className="w-full resize-none rounded-md border border-navy-border/70 bg-void/30 p-4 text-sm text-ink-primary placeholder:text-ink-faint focus:border-web-blue focus:outline-none"
         />
       )}
 
@@ -73,41 +91,61 @@ export default function AnalyzeInputPanel({ onSubmitText, onSubmitUrl, onSubmitI
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="https://suspicious-link.example"
-          className="w-full rounded-md border border-navy-border bg-void/60 p-4 text-sm text-ink-primary placeholder:text-ink-faint focus:border-web-blue focus:outline-none"
+          className="w-full rounded-md border border-navy-border/70 bg-void/30 p-4 text-sm text-ink-primary placeholder:text-ink-faint focus:border-web-blue focus:outline-none"
         />
       )}
 
       {tab === "image" && (
         <div
           onClick={() => imageInput.current?.click()}
-          className="flex cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-navy-border bg-void/60 p-10 text-center hover:border-web-blue"
+          className="flex cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-navy-border/70 bg-void/30 p-10 text-center hover:border-web-blue"
         >
           <input
             ref={imageInput}
             type="file"
             accept="image/png,image/jpeg,image/webp"
             className="hidden"
-            onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
+            onChange={(e) =>
+              setImageFile(e.target.files?.[0] ?? null)
+            }
           />
-          <p className="text-sm text-ink-primary">{imageFile ? imageFile.name : "Upload a screenshot"}</p>
-          <p className="mt-1 text-xs text-ink-muted">PNG, JPEG, or WebP — up to 10MB</p>
+
+          <p className="text-sm text-ink-primary">
+            {imageFile
+              ? imageFile.name
+              : "Upload a screenshot"}
+          </p>
+
+          <p className="mt-1 text-xs text-ink-muted">
+            PNG, JPEG, or WebP — up to 10MB
+          </p>
         </div>
       )}
 
       {tab === "audio" && (
         <div
           onClick={() => audioInput.current?.click()}
-          className="flex cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-navy-border bg-void/60 p-10 text-center hover:border-web-blue"
+          className="flex cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-navy-border/70 bg-void/30 p-10 text-center hover:border-web-blue"
         >
           <input
             ref={audioInput}
             type="file"
             accept="audio/mpeg,audio/wav,audio/mp4,audio/ogg"
             className="hidden"
-            onChange={(e) => setAudioFile(e.target.files?.[0] ?? null)}
+            onChange={(e) =>
+              setAudioFile(e.target.files?.[0] ?? null)
+            }
           />
-          <p className="text-sm text-ink-primary">{audioFile ? audioFile.name : "Upload a voice recording"}</p>
-          <p className="mt-1 text-xs text-ink-muted">MP3, WAV, M4A, or OGG — up to 10MB</p>
+
+          <p className="text-sm text-ink-primary">
+            {audioFile
+              ? audioFile.name
+              : "Upload a voice recording"}
+          </p>
+
+          <p className="mt-1 text-xs text-ink-muted">
+            MP3, WAV, M4A, or OGG — up to 10MB
+          </p>
         </div>
       )}
 

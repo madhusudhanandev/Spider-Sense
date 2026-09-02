@@ -145,6 +145,8 @@ export interface CampaignOut {
   languages_seen: string[];
   delivery_methods_seen: string[];
   report_count: number;
+  recent_report_count: number;
+  is_emerging: boolean;
 }
 
 export interface CampaignEventOut {
@@ -157,4 +159,32 @@ export interface CampaignEventOut {
 
 export interface CampaignDetailOut extends CampaignOut {
   events: CampaignEventOut[];
+}
+
+export interface TransitionPattern {
+  event_type: string;
+  from_value: string;
+  to_value: string;
+  occurrence_count: number;
+}
+
+export interface EvolutionPatternsResult {
+  total_campaigns_analyzed: number;
+  campaigns_with_mutations: number;
+  common_transitions: TransitionPattern[];
+  first_mutation_type_distribution: Record<string, number>;
+  median_time_to_first_mutation_hours?: number | null;
+  sample_size_note: string;
+}
+
+export interface MutationTypeCount {
+  event_type: string;
+  occurrence_count: number;
+}
+
+export interface SuggestedNextMutation {
+  current_state?: string | null;
+  comparable_case_count: number;
+  distribution: MutationTypeCount[];
+  note: string;
 }

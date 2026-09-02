@@ -3,9 +3,12 @@ import Navbar from "./Navbar";
 
 export default function PageShell({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-void">
+    <div className="min-h-screen bg-transparent">
       <Navbar />
-      <main className="mx-auto max-w-6xl px-6 pb-24 pt-10">{children}</main>
+
+      <main className="mx-auto max-w-6xl px-6 pb-24 pt-10">
+        {children}
+      </main>
     </div>
   );
 }

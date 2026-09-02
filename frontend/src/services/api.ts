@@ -10,13 +10,7 @@ import type {
   SuggestedNextMutation,
 } from "../types";
 
-// In local dev, Vite's proxy (vite.config.ts) forwards "/api" to the
-// backend, so the default relative path works with no configuration.
-// Once frontend and backend are deployed to separate domains (e.g. Vercel
-// + Render), set VITE_API_BASE_URL to the backend's full URL so requests
-// go directly there instead of relying on a same-origin proxy that won't
-// exist in production.
-const BASE = `${import.meta.env.VITE_API_BASE_URL ?? ""}/api`;
+const BASE = "/api";
 
 async function handle<T>(res: Response): Promise<T> {
   if (!res.ok) {
@@ -78,7 +72,14 @@ export const api = {
     getRelatedIncidents: (incidentId: string) =>
     fetch(`${BASE}/community/related/${incidentId}`).then((r) => handle<RelatedIncidentsResult>(r)),
 
-  getCampaigns: () => fetch(`${BASE}/campaigns`).then((r) => handle<CampaignOut[]>(r)),
+    getCampaigns: (emergingOnly?: boolean) =>
+    fetch(`${BASE}/campaigns${emergingOnly ? "?emerging_only=true" : ""}`).then((r) => handle<CampaignOut[]>(r)),
 
   getCampaign: (id: string) => fetch(`${BASE}/campaigns/${id}`).then((r) => handle<CampaignDetailOut>(r)),
+
+    getEvolutionPatterns: () =>
+    fetch(`${BASE}/intelligence/evolution-patterns`).then((r) => handle<EvolutionPatternsResult>(r)),
+
+  getSuggestedNextMutation: (campaignId: string) =>
+    fetch(`${BASE}/campaigns/${campaignId}/suggested-next-mutation`).then((r) => handle<SuggestedNextMutation>(r)),
 };

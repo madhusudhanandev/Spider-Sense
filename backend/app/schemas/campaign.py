@@ -16,7 +16,9 @@ class CampaignOut(ORMBase):
     languages_seen: list[str] = []
     delivery_methods_seen: list[str] = []
     report_count: int
-
+    # Computed at request time, not stored -- see app/services/intelligence/trend_service.py
+    recent_report_count: int = 0
+    is_emerging: bool = False
 
 class CampaignEventOut(ORMBase):
     id: UUID
