@@ -4,8 +4,10 @@ import type {
   CampaignOut,
   CommunityReportOut,
   CommunityStats,
+  EvolutionPatternsResult,
   IncidentOut,
   RelatedIncidentsResult,
+  SuggestedNextMutation,
 } from "../types";
 
 const BASE = "/api";
@@ -70,7 +72,14 @@ export const api = {
     getRelatedIncidents: (incidentId: string) =>
     fetch(`${BASE}/community/related/${incidentId}`).then((r) => handle<RelatedIncidentsResult>(r)),
 
-  getCampaigns: () => fetch(`${BASE}/campaigns`).then((r) => handle<CampaignOut[]>(r)),
+    getCampaigns: (emergingOnly?: boolean) =>
+    fetch(`${BASE}/campaigns${emergingOnly ? "?emerging_only=true" : ""}`).then((r) => handle<CampaignOut[]>(r)),
 
   getCampaign: (id: string) => fetch(`${BASE}/campaigns/${id}`).then((r) => handle<CampaignDetailOut>(r)),
+
+    getEvolutionPatterns: () =>
+    fetch(`${BASE}/intelligence/evolution-patterns`).then((r) => handle<EvolutionPatternsResult>(r)),
+
+  getSuggestedNextMutation: (campaignId: string) =>
+    fetch(`${BASE}/campaigns/${campaignId}/suggested-next-mutation`).then((r) => handle<SuggestedNextMutation>(r)),
 };

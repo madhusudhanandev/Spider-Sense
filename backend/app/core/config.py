@@ -40,6 +40,13 @@ class Settings(BaseSettings):
     # an existing campaign instead of starting a new one. Tune this if
     # campaigns feel too eager to merge (raise it) or too fragmented (lower it).
     CAMPAIGN_SIMILARITY_THRESHOLD: float = 0.82
+     # --- Phase 5: emerging threat detection ---
+    # A campaign is flagged "emerging" if it received at least this many
+    # new reports within this many hours. Descriptive, not predictive --
+    # it surfaces what's currently accelerating, never forecasts what a
+    # campaign will become.
+    EMERGING_WINDOW_HOURS: int = 48
+    EMERGING_MIN_RECENT_REPORTS: int = 2
 
     # --- OCR ---
        

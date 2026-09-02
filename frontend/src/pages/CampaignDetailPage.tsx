@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageShell from "../components/layout/PageShell";
 import { api } from "../services/api";
-import type { CampaignDetailOut } from "../types";
+import type { CampaignDetailOut, SuggestedNextMutation } from "../types";
 import { formatCategory } from "../utils/risk";
 
 function eventLabel(eventType: string): string {
@@ -21,14 +21,17 @@ function eventLabel(eventType: string): string {
 export default function CampaignDetailPage() {
   const { campaignId } = useParams();
   const [campaign, setCampaign] = useState<CampaignDetailOut | null>(null);
+  const [suggestion, setSuggestion] = useState<SuggestedNextMutation | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!campaignId) return;
-    api
-      .getCampaign(campaignId)
-      .then(setCampaign)
+    Promise.all([api.getCampaign(campaignId), api.getSuggestedNextMutation(campaignId)])
+      .then(([c, s]) => {
+        setCampaign(c);
+        setSuggestion(s);
+      })
       .catch((e) => setError(e instanceof Error ? e.message : "Could not load this campaign."))
       .finally(() => setLoading(false));
   }, [campaignId]);
@@ -59,6 +62,11 @@ export default function CampaignDetailPage() {
         <p className="text-ink-muted">
           {formatCategory(campaign.scam_category)} &middot; {campaign.report_count} related reports
         </p>
+        {campaign.is_emerging && (
+          <span className="mt-2 inline-block rounded-full border border-spider-red/40 bg-spider-red/10 px-2.5 py-1 text-xs font-medium text-spider-red">
+            🔥 Emerging — {campaign.recent_report_count} reports recently
+          </span>
+        )}
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
@@ -85,11 +93,30 @@ export default function CampaignDetailPage() {
                 ))}
               </div>
             )}
-            <p className="mt-4 text-xs italic text-ink-faint">
-              This is an observed history, not a prediction — Spider-Sense does not yet forecast future scam
-              variants.
-            </p>
           </section>
+
+          {suggestion && (
+            <section>
+              <h2 className="mb-2 font-display text-lg font-semibold">What happened next in similar cases</h2>
+              <p className="mb-3 text-xs text-ink-faint">
+                This is a lookup over historical cases, not a prediction — Spider-Sense does not forecast what
+                this specific campaign will do next.
+              </p>
+              {suggestion.distribution.length > 0 ? (
+                <ul className="space-y-1.5 text-sm text-ink-primary">
+                  {suggestion.distribution.map((d, i) => (
+                    <li key={i}>
+                      &bull; {eventLabel(d.event_type)} — {d.occurrence_count} case
+                      {d.occurrence_count !== 1 ? "s" : ""}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-ink-faint">No comparable historical cases found.</p>
+              )}
+              <p className="mt-3 text-xs italic text-ink-faint">{suggestion.note}</p>
+            </section>
+          )}
         </div>
 
         <aside className="space-y-6">
